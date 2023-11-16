@@ -11,7 +11,7 @@
 function createTreemap(selector, jsonFile, colorScale) {
     var canvas = d3.select(selector)
         .append("svg")
-        .attr("width", "50vw")
+        .attr("width", "50%")
         .attr("height", "100vh");
 
     d3.json(jsonFile).then(data => {
@@ -48,7 +48,7 @@ function createTreemap(selector, jsonFile, colorScale) {
 }
 
 createTreemap("body", "data.json", d3.scaleLinear().domain([0, 20]).range(["#C0D9D9", "#00FF00"]));
-createTreemap("body", "data-n.json", d3.scaleLinear().domain([10, -10]).range(["#FF0000", "#FFC0C0"]));
+createTreemap("body", "data-n.json", d3.scaleLinear().domain([-10, 10]).range(["#FFC0C0", "#FF0000"]));
 </script>
 </body>
 </html>
