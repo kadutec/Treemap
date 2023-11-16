@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <title>Treemap</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+<body>
+
+<script>
+function createTreemap(selector, jsonFile, colorScale) {
+    var canvas = d3.select(selector)
+        .append("svg")
+        .attr("width", "50vw")
+        .attr("height", "100vh");
+
+    d3.json(jsonFile).then(data => {
+        var root = d3.hierarchy(data)
+            .sum(d => Math.abs(d.value))
+            .sort((a, b) => b.value - a.value);
+
+        var treemap = d3.treemap()
+            .size([canvas.node().getBoundingClientRect().width, canvas.node().getBoundingClientRect().height]);
+
+        treemap(root);
+
+        var cells = canvas.selectAll(".cell")
+            .data(root.descendants())
+            .join("g")
+            .attr("class", "cell")
+            .attr("transform", d => `translate(${d.x0},${d.y0})`);
+
+        cells.append("rect")
+            .attr("width", d => Math.max(0, d.x1 - d.x0))
+            .attr("height", d => Math.max(0, d.y1 - d.y0))
+            .attr("fill", d => d.children ? null : colorScale(d.value))
+            .attr("stroke", "#000000")
+            .attr("stroke-width", 1);
+
+        cells.selectAll("text")
+            .data(d => d.children ? [] : [d.data.name, d.data.value + '%'])
+            .join("text")
+            .attr("dy", (d, i) => `${1.5 + i}rem`)
+            .attr("dx", "0.4em")
+            .attr("text-anchor", "start")
+            .text(d => d);
+    }).catch(error => console.error(error));
+}
+
+createTreemap("body", "data.json", d3.scaleLinear().domain([0, 20]).range(["#C0D9D9", "#00FF00"]));
+createTreemap("body", "data-n.json", d3.scaleLinear().domain([10, -10]).range(["#FF0000", "#FFC0C0"]));
+</script>
+</body>
+</html>

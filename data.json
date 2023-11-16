@@ -1,0 +1,21 @@
+{
+    "name": "data",
+    "children": [
+        {
+            "name": "languages",
+            "children": [
+                {"name": "JavaScript", "value": 1},
+                {"name": "Python", "value": 12},
+                {"name": "C", "value": 4},
+                {"name": "C#", "value": 1},
+                {"name": "C++", "value": 5},
+                {"name": "SQL", "value": 2},
+                {"name": "Typescript", "value": 17},
+                {"name": "Go", "value": 1},
+                {"name": "Kotlin", "value": 7},
+                {"name": "Rust", "value": 7},
+                {"name": "Shell", "value": 5}             
+            ]
+        }
+    ]
+}
